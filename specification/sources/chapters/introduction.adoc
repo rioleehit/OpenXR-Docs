@@ -2,217 +2,324 @@
 //
 // SPDX-License-Identifier: CC-BY-4.0
 [[preamble]]
-This Specification is protected by copyright laws and contains material
-proprietary to Khronos.
-Except as described by these terms, it or any components may not be
-reproduced, republished, distributed, transmitted, displayed, broadcast or
-otherwise exploited in any manner without the express prior written
-permission of Khronos.
-Khronos grants a conditional copyright license to use and reproduce the
-unmodified Specification for any purpose, without fee or royalty, EXCEPT no
-licenses to any patent, trademark or other intellectual property rights are
-granted under these terms.
+// This Specification is protected by copyright laws and contains material
+// proprietary to Khronos.
+// Except as described by these terms, it or any components may not be
+// reproduced, republished, distributed, transmitted, displayed, broadcast or
+// otherwise exploited in any manner without the express prior written
+// permission of Khronos.
+// Khronos grants a conditional copyright license to use and reproduce the
+// unmodified Specification for any purpose, without fee or royalty, EXCEPT no
+// licenses to any patent, trademark or other intellectual property rights are
+// granted under these terms.
 
-Khronos makes no, and expressly disclaims any, representations or
-warranties, express or implied, regarding this Specification, including,
-without limitation: merchantability, fitness for a particular purpose,
-non-infringement of any intellectual property, correctness, accuracy,
-completeness, timeliness, and reliability.
-Under no circumstances will Khronos, or any of its Promoters, Contributors
-or Members, or their respective partners, officers, directors, employees,
-agents or representatives be liable for any damages, whether direct,
-indirect, special or consequential damages for lost revenues, lost profits,
-or otherwise, arising from or in connection with these materials.
+本规范受版权法保护并包含 Khronos 专有的材料。
+除本条款所述外，未经 Khronos 明确事先书面许可，
+不得以任何方式复制、再版、分发、传输、展示、
+广播或以其他方式利用它或任何组件。 Khronos 授予
+有条件的版权许可，可以出于任何目的使用和复制未修改的规范，
+无需支付任何费用或版税，但根据这些条款未授予任何专利、
+商标或其他知识产权的许可。
 
-This Specification has been created under the Khronos Intellectual Property
-Rights Policy, which is Attachment A of the Khronos Group Membership
-Agreement available at https://www.khronos.org/files/member_agreement.pdf,
-and which defines the terms 'Scope', 'Compliant Portion', and 'Necessary
-Patent Claims'.
-Parties desiring to implement the Specification and make use of Khronos
-trademarks in relation to that implementation, and receive reciprocal patent
-license protection under the Khronos Intellectual Property Rights Policy
-must become Adopters and confirm the implementation as conformant under the
-process defined by Khronos for this Specification; see
-https://www.khronos.org/adopters.
-Some parts of this Specification are purely informative and so are EXCLUDED
-from the Scope of this Specification.
-The <<introduction-document-conventions,Document Conventions>> section of
-the <<introduction,Introduction>> defines how these parts of the
-Specification are identified.
+// Khronos makes no, and expressly disclaims any, representations or
+// warranties, express or implied, regarding this Specification, including,
+// without limitation: merchantability, fitness for a particular purpose,
+// non-infringement of any intellectual property, correctness, accuracy,
+// completeness, timeliness, and reliability.
+// Under no circumstances will Khronos, or any of its Promoters, Contributors
+// or Members, or their respective partners, officers, directors, employees,
+// agents or representatives be liable for any damages, whether direct,
+// indirect, special or consequential damages for lost revenues, lost profits,
+// or otherwise, arising from or in connection with these materials.
 
-Where this Specification uses technical terminology, defined in the
-<<glossary,Glossary>> or otherwise, that refer to enabling technologies that
-are not expressly set forth in this Specification, those enabling
-technologies are EXCLUDED from the Scope of this Specification.
-For clarity, enabling technologies not disclosed with particularity in this
-Specification (e.g. semiconductor manufacturing technology, hardware
-architecture, processor architecture or microarchitecture, memory
-architecture, compiler technology, object oriented technology, basic
-operating system technology, compression technology, algorithms, and so on)
-are NOT to be considered expressly set forth; only those application program
-interfaces and data structures disclosed with particularity are included in
-the Scope of this Specification.
+Khronos 不作任何明示或暗示的关于本规范的陈述或保证，
+包括但不限于：适销性、特定用途的适用性、不侵犯任何知识产权、
+正确性、准确性、完整性、及时性、 和可靠性。 在任何情况下，
+Khronos 或其任何发起人、贡献者或成员，或他们各自的合作伙伴、
+管理人员、董事、雇员、代理人或代表均不对任何损害承担责任，
+无论是收入损失、损失损失的直接、间接、特殊或后果性损害 
+由这些材料产生或与之相关的利润或其他。
 
-For purposes of the Khronos Intellectual Property Rights Policy as it
-relates to the definition of Necessary Patent Claims, all recommended or
-optional features, behaviors and functionality set forth in this
-Specification, if implemented, are considered to be included as Compliant
-Portions.
+// This Specification has been created under the Khronos Intellectual Property
+// Rights Policy, which is Attachment A of the Khronos Group Membership
+// Agreement available at https://www.khronos.org/files/member_agreement.pdf,
+// and which defines the terms 'Scope', 'Compliant Portion', and 'Necessary
+// Patent Claims'.
+// Parties desiring to implement the Specification and make use of Khronos
+// trademarks in relation to that implementation, and receive reciprocal patent
+// license protection under the Khronos Intellectual Property Rights Policy
+// must become Adopters and confirm the implementation as conformant under the
+// process defined by Khronos for this Specification; see
+// https://www.khronos.org/adopters.
+// Some parts of this Specification are purely informative and so are EXCLUDED
+// from the Scope of this Specification.
+// The <<introduction-document-conventions,Document Conventions>> section of
+// the <<introduction,Introduction>> defines how these parts of the
+// Specification are identified.
+:Attachment-A: https://www.khronos.org/files/member_agreement.pdf
+本规范是根据 Khronos 知识产权政策创建的，该政策是 Khronos 集团成员协议的
+{Attachment-A}[附件A]
+,它定义了术语“范围”，
+ “合规部分”和“必要的专利声明”。 希望实施规范并使用与实施相关的 Khronos 商标，
+ 并根据 Khronos 知识产权政策获得互惠专利许可保护的各方必须成为采纳者，
+ 并确认实施符合 Khronos 为本规范定义的流程； 请参阅 https://www.khronos.org/adopters。 
+ 本规范的某些部分仅供参考，因此被排除在本规范的范围之外。 <<introduction,介绍>> 
+ 的 <<introduction-document-conventions,文档约定>> 部分定义了如何识别规范的这些部分。
 
-Vulkan and Khronos are registered trademarks of The Khronos Group Inc.
-OpenGL and OpenGL ES are registered trademarks of Hewlett Packard
-Enterprise, all used under license by Khronos.
-All other product names, trademarks, and/or company names are used solely
-for identification and belong to their respective owners.
+// Where this Specification uses technical terminology, defined in the
+// <<glossary,Glossary>> or otherwise, that refer to enabling technologies that
+// are not expressly set forth in this Specification, those enabling
+// technologies are EXCLUDED from the Scope of this Specification.
+// For clarity, enabling technologies not disclosed with particularity in this
+// Specification (e.g. semiconductor manufacturing technology, hardware
+// architecture, processor architecture or microarchitecture, memory
+// architecture, compiler technology, object oriented technology, basic
+// operating system technology, compression technology, algorithms, and so on)
+// are NOT to be considered expressly set forth; only those application program
+// interfaces and data structures disclosed with particularity are included in
+// the Scope of this Specification.
+如果本规范使用在 <<glossary,术语词汇>> 或其他地方定义的技术术语，指的是本规范中
+未明确规定的支持技术，则这些支持技术被排除在本规范的范围之外。 为清楚起见，
+本规范中未特别披露的使能技术（例如半导体制造技术、硬件架构、处理器架构或微架构、
+内存架构、编译器技术、面向对象技术、基本操作系统技术、压缩技术、算法等） 
+不应视为明确规定； 只有那些特别公开的应用程序接口和数据结构才包含在本规范的范围内。
+
+// For purposes of the Khronos Intellectual Property Rights Policy as it
+// relates to the definition of Necessary Patent Claims, all recommended or
+// optional features, behaviors and functionality set forth in this
+// Specification, if implemented, are considered to be included as Compliant
+// Portions.
+出于 Khronos 知识产权政策的目的，因为它与必要专利声明的定义相关，
+本规范中规定的所有推荐或可选特性、行为和功能，如果实施，将被视为合规部分。
+
+// Vulkan and Khronos are registered trademarks of The Khronos Group Inc.
+// OpenGL and OpenGL ES are registered trademarks of Hewlett Packard
+// Enterprise, all used under license by Khronos.
+// All other product names, trademarks, and/or company names are used solely
+// for identification and belong to their respective owners.
+Vulkan 和 Khronos 是 The Khronos Group Inc. 的注册商标。
+OpenGL 和 OpenGL ES 是 Hewlett Packard Enterprise 的注册商标，
+所有使用均由 Khronos 许可。 所有其他产品名称、商标和(或)公司名称
+仅用于识别并属于其各自所有者。
 
 [[introduction]]
 == 介绍
 
-This chapter is informative except for the section on
-<<introduction-terminology,Normative Terminology>>.
+// This chapter is informative except for the section on
+// <<introduction-terminology,Normative Terminology>>.
 
-This document, referred to as the "OpenXR Specification" or just the
-"Specification" hereafter, describes OpenXR: what it is, how it acts, and
-what is required to implement it.
-We assume that the reader has a basic understanding of computer graphics and
-the technologies involved in virtual and augmented reality.
-This means familiarity with the essentials of computer graphics algorithms
-and terminology, modern GPUs (Graphic Processing Units), tracking
-technologies, head mounted devices, and input modalities.
+// This document, referred to as the "OpenXR Specification" or just the
+// "Specification" hereafter, describes OpenXR: what it is, how it acts, and
+// what is required to implement it.
+// We assume that the reader has a basic understanding of computer graphics and
+// the technologies involved in virtual and augmented reality.
+// This means familiarity with the essentials of computer graphics algorithms
+// and terminology, modern GPUs (Graphic Processing Units), tracking
+// technologies, head mounted devices, and input modalities.
 
-The canonical version of the Specification is available in the official
-OpenXR Registry, located at URL
+// The canonical version of the Specification is available in the official
+// OpenXR Registry, located at URL
+
+// http://www.khronos.org/registry/openxr/
+
+本章除<<introduction-terminology,规范术语>>部分外，均为资料性内容。 
+
+本文档称为“OpenXR 规范”或以下简称“规范”，描述了 OpenXR
+它是什么、它如何工作以及实现它需要什么。 我们假设读者对计算机图形学以及
+虚拟现实和增强现实中涉及的技术有基本的了解。 这意味着熟悉计算机图形算法和术语、
+现代 GPU(图形处理单元)、跟踪技术、头戴式设备和输入模式的基本知识。 
+
+规范的规范版本可在官方 OpenXR 注册表中找到，网址为
 
 http://www.khronos.org/registry/openxr/
 
-=== What is OpenXR?
+=== OpenXR是什么?
 
-OpenXR is an API (Application Programming Interface) for XR applications.
-XR refers to a continuum of real-and-virtual combined environments generated
-by computers through human-machine interaction and is inclusive of the
-technologies associated with virtual reality (VR), augmented reality (AR)
-and mixed reality (MR).
-OpenXR is the interface between an application and an in-process or
-out-of-process "XR runtime system", or just "runtime" hereafter.
-The runtime may handle such functionality as frame composition, peripheral
-management, and raw tracking information.
+// OpenXR is an API (Application Programming Interface) for XR applications.
+// XR refers to a continuum of real-and-virtual combined environments generated
+// by computers through human-machine interaction and is inclusive of the
+// technologies associated with virtual reality (VR), augmented reality (AR)
+// and mixed reality (MR).
+// OpenXR is the interface between an application and an in-process or
+// out-of-process "XR runtime system", or just "runtime" hereafter.
+// The runtime may handle such functionality as frame composition, peripheral
+// management, and raw tracking information.
 
-Optionally, a runtime may support device layer plugins which allow access to
-a variety of hardware across a commonly defined interface.
+// Optionally, a runtime may support device layer plugins which allow access to
+// a variety of hardware across a commonly defined interface.
 
-=== The Programmer's View of OpenXR
+OpenXR 是 XR 应用程序的 API（应用程序编程接口）。 XR 是指计算机通过人机交互生成的
+连续的真实和虚拟组合环境，包括与虚拟现实 (VR)、增强现实 (AR) 和混合现实 (MR) 相关的技术。 
+OpenXR 是应用程序与进程内或进程外“XR 运行时系统”或以下简称“运行时”之间的接口。 
+运行时可以处理诸如帧组合、外围设备管理和原始跟踪信息之类的功能。 
 
-To the application programmer, OpenXR is a set of functions that interface
-with a runtime to perform commonly required operations such as accessing
-controller/peripheral state, getting current and/or predicted tracking
-positions, and submitting rendered frames.
+可选地，运行时可以支持设备层插件，允许通过共同定义的接口访问各种硬件。
 
-A typical OpenXR program begins with a call to create an instance which
-establishes a connection to a runtime.
-Then a call is made to create a system which selects for use a physical
-display and a subset of input, tracking, and graphics devices.
-Subsequently a call is made to create buffers into which the application
-will render one or more views using the appropriate graphics APIs for the
-platform.
-Finally calls are made to create a session and begin the application's XR
-rendering loop.
+=== OpenXR程序梗概
 
-=== The Implementor's View of OpenXR
+// To the application programmer, OpenXR is a set of functions that interface
+// with a runtime to perform commonly required operations such as accessing
+// controller/peripheral state, getting current and/or predicted tracking
+// positions, and submitting rendered frames.
 
-To the runtime implementor, OpenXR is a set of functions that control the
-operation of the XR system and establishes the lifecycle of a XR
-application.
+// A typical OpenXR program begins with a call to create an instance which
+// establishes a connection to a runtime.
+// Then a call is made to create a system which selects for use a physical
+// display and a subset of input, tracking, and graphics devices.
+// Subsequently a call is made to create buffers into which the application
+// will render one or more views using the appropriate graphics APIs for the
+// platform.
+// Finally calls are made to create a session and begin the application's XR
+// rendering loop.
+对于应用程序程序员来说，OpenXR 是一组运行时的接口函数，用于执行通常需要的操作，
+例如访问 控制器/外设 状态，获取当前和（或）预测的跟踪位置以及提交渲染帧。 
 
-The implementor's task is to provide a software library on the host which
-implements the OpenXR API, while mapping the work for each OpenXR function
-to the graphics hardware as appropriate for the capabilities of the device.
+一个典型的 OpenXR 程序首先调用创建一个实例，该实例与本地运行时进行关联。 
+然后调用创建一个系统，该系统选择使用物理显示器和输入、跟踪和图形设备的子集。 
+随后调用创建缓冲区，应用程序将使用适合平台的图形 API 将一个或多个视图渲染到缓冲区中。 
+最后调用创建会话并开始应用程序的 XR 渲染循环。
 
-=== Our View of OpenXR
+=== OpenXR运行时梗概
 
-We view OpenXR as a mechanism for interacting with VR/AR/MR systems in a
-platform-agnostic way.
+// To the runtime implementor, OpenXR is a set of functions that control the
+// operation of the XR system and establishes the lifecycle of a XR
+// application.
+对于运行时实现者，OpenXR 是一组控制 XR 系统运行并建立 XR 应用程序生命周期的函数。 
 
-We expect this model to result in a specification that satisfies the needs
-of both programmers and runtime implementors.
-It does not, however, necessarily provide a model for implementation.
-A runtime implementation must: produce results conforming to those produced
-by the specified methods, but may: carry out particular procedures in ways
-that are more efficient than the one specified.
+// The implementor's task is to provide a software library on the host which
+// implements the OpenXR API, while mapping the work for each OpenXR function
+// to the graphics hardware as appropriate for the capabilities of the device.
 
+实施者的任务是在实施 OpenXR API 的主机上提供一个软件库，同时将每个 OpenXR 功能的工作映射到适合设备功能的图形硬件。
+
+=== 我们对 OpenXR 的看法
+
+// We view OpenXR as a mechanism for interacting with VR/AR/MR systems in a
+// platform-agnostic way.
+我们将 OpenXR 视为一种以与平台无关的方式与 VR/AR/MR 系统交互的机制。 
+
+// We expect this model to result in a specification that satisfies the needs
+// of both programmers and runtime implementors.
+// It does not, however, necessarily provide a model for implementation.
+// A runtime implementation must: produce results conforming to those produced
+// by the specified methods, but may: carry out particular procedures in ways
+// that are more efficient than the one specified.
+我们期望此模型产生的规范能够同时满足程序员和运行时实现者的需求。 
+但是，它不一定提供实施模型。 
+运行时必须实现： 产生符合指定方法产生的结果的结果，
+或许可以： 以比指定方法更有效的方式执行特定过程。
 
 [[introduction-bugs]]
-=== Filing Bug Reports
-Issues with and bug reports on the OpenXR Specification and the API Registry
-can: be filed in the Khronos OpenXR GitHub repository, located at URL
+=== 提交错误报告
+// Issues with and bug reports on the OpenXR Specification and the API Registry
+// can: be filed in the Khronos OpenXR GitHub repository, located at URL
+
+// https://github.com/KhronosGroup/OpenXR-Docs
+
+// Please tag issues with appropriate labels, such as "`Specification`", "`Ref
+// Pages`" or "`Registry`", to help us triage and assign them appropriately.
+// Unfortunately, GitHub does not currently let users who do not have write
+// access to the repository set GitHub labels on issues.
+// In the meantime, they can: be added to the title line of the issue set in
+// brackets, e.g. "`[Specification]`".
+关于 OpenXR 规范和 API 注册表的问题和错误报告可以： 
 
 https://github.com/KhronosGroup/OpenXR-Docs
 
-Please tag issues with appropriate labels, such as "`Specification`", "`Ref
-Pages`" or "`Registry`", to help us triage and assign them appropriately.
-Unfortunately, GitHub does not currently let users who do not have write
-access to the repository set GitHub labels on issues.
-In the meantime, they can: be added to the title line of the issue set in
-brackets, e.g. "`[Specification]`".
+"`规范`"、"`参考页`" 或 "`注册表`"，以帮助我们适当地分类和分配它们。 
+不幸的是，GitHub 目前不允许没有存储库写入权限的用户在问题上设置 GitHub 标签。 同时，
+它们可以： "`[规范]`"。
 
 [[introduction-document-conventions]]
-=== Document Conventions
+=== 文档约定
 
-The OpenXR specification is intended for use by both implementors of the API
-and application developers seeking to make use of the API, forming a
-contract between these parties.
-Specification text may address either party; typically the intended audience
-can be inferred from context, though some sections are defined to address
-only one of these parties.
-(For example, Valid Usage sections only address application developers).
-Any requirements, prohibitions, recommendations or options defined by
-normative terminology are imposed only on the audience of that text.
+// The OpenXR specification is intended for use by both implementors of the API
+// and application developers seeking to make use of the API, forming a
+// contract between these parties.
+// Specification text may address either party; typically the intended audience
+// can be inferred from context, though some sections are defined to address
+// only one of these parties.
+// (For example, Valid Usage sections only address application developers).
+// Any requirements, prohibitions, recommendations or options defined by
+// normative terminology are imposed only on the audience of that text.
+OpenXR 规范旨在供 API 的实现者和寻求使用 API 的应用程序开发人员使用，
+从而在这些各方之间形成合同。 规范文本可以针对任何一方； 通常可以从上下文中推断出预期的受众，
+尽管某些部分被定义为仅针对其中一方。 （例如，有效使用部分仅针对应用程序开发人员）。 
+规范术语定义的任何要求、禁令、建议或选项仅适用于该文本的读者。
 
 [[introduction-terminology]]
-==== Normative Terminology
+==== 规范术语
 
-The key words must:, required:, should:, may:, and optional: in this
-document, when denoted as above, are to be interpreted as described in RFC
-2119:
+// The key words must:, required:, should:, may:, and optional: in this
+// document, when denoted as above, are to be interpreted as described in RFC
+// 2119:
+
+// https://tools.ietf.org/html/rfc2119
+
+// *must*:: When used alone, this word, or the term *required*, means that the
+// definition is an absolute requirement of the specification.
+// When followed by *not* ("`must: not`" ), the phrase means that the
+// definition is an absolute prohibition of the specification.
+
+// *should*:: When used alone, this word means that there may exist valid
+// reasons in particular circumstances to ignore a particular item, but the
+// full implications must be understood and carefully weighed before choosing a
+// different course.
+// When followed by *not* ("`should: not`"), the phrase means that there may
+// exist valid reasons in particular circumstances when the particular behavior
+// is acceptable or even useful, but the full implications should: be
+// understood and the case carefully weighed before implementing any behavior
+// described with this label.
+
+// *may*:: This word, or the adjective *optional*, means that an item is truly
+// optional.
+// One vendor may choose to include the item because a particular marketplace
+// requires it or because the vendor feels that it enhances the product while
+// another vendor may omit the same item.
+
+// The additional terms can: and cannot: are to be interpreted as follows:
+
+// *can*:: This word means that the particular behavior described is a valid
+// choice for an application, and is never used to refer to runtime behavior.
+
+// *cannot*:: This word means that the particular behavior described is not
+// achievable by an application, for example, an entry point does not exist.
+本文档中的关键字 must:、required:、should:、may: 和 optional: 
+如上所示，应按照 RFC 2119 中的描述进行解释：
 
 https://tools.ietf.org/html/rfc2119
 
-*must*:: When used alone, this word, or the term *required*, means that the
-definition is an absolute requirement of the specification.
-When followed by *not* ("`must: not`" ), the phrase means that the
-definition is an absolute prohibition of the specification.
+*必须(must)*:: 单独使用时，这个词或术语 *需要(required)* 表示该定义是规范的绝对要求。
+当后面跟着 *禁止(not)* ("`must: not`" ) 时，该短语表示该定义是对规范的绝对禁止。
 
-*should*:: When used alone, this word means that there may exist valid
-reasons in particular circumstances to ignore a particular item, but the
-full implications must be understood and carefully weighed before choosing a
-different course.
-When followed by *not* ("`should: not`"), the phrase means that there may
-exist valid reasons in particular circumstances when the particular behavior
-is acceptable or even useful, but the full implications should: be
-understood and the case carefully weighed before implementing any behavior
-described with this label.
+*应该(should)*:: 单独使用时，这个词表示在特定情况下可能存在忽略特定项目的正当理由，
+但在选择不同的课程之前必须理解并仔细权衡全部含义。当后面跟着 *不(not)*（“`should: not`”）时，
+该短语表示在特定情况下可能存在正当理由，当特定行为可以接受甚至有用时，
+但完整的含义应该：被理解并仔细处理在实施使用此标签描述的任何行为之前进行权衡。
 
-*may*:: This word, or the adjective *optional*, means that an item is truly
-optional.
-One vendor may choose to include the item because a particular marketplace
-requires it or because the vendor feels that it enhances the product while
-another vendor may omit the same item.
+*可能(may)*:: 这个词，或形容词 *可选的(optional)*，表示一个项目是真正可选的。
+一个供应商可能会选择包括该项目，因为特定市场需要它，
+或者因为供应商认为它可以增强产品，而另一个供应商可能会省略相同的项目。
 
-The additional terms can: and cannot: are to be interpreted as follows:
+附加条款可以：和不能：解释如下：
 
-*can*:: This word means that the particular behavior described is a valid
-choice for an application, and is never used to refer to runtime behavior.
+*能够can*:: 这个词表示所描述的特定行为是应用程序的有效选择，并且从不用于指代运行时行为。
 
-*cannot*:: This word means that the particular behavior described is not
-achievable by an application, for example, an entry point does not exist.
+ *不能cannot*:: 这个词表示应用程序无法实现所描述的特定行为，例如，入口点不存在。
 
 [NOTE]
 ======
-There is an important distinction between *cannot* and *must not*, as used
-in this Specification.
-*Cannot* means something the application literally is unable to express or
-accomplish through the API, while *must not* means something that the
-application is capable of expressing through the API, but that the
-consequences of doing so are undefined and potentially unrecoverable for the
-runtime.
+正如本规范中所使用的，*cannot* 和 *must not* 之间有一个重要的区别。
+*Cannot* 表示应用程序无法通过 API 表达或完成某些内容，
+而 *must not* 表示应用程序能够通过 API 表达某些内容，但这样做的后果是不确定的，并且可能无法恢复 运行。
 ======
+
+// ======
+// There is an important distinction between *cannot* and *must not*, as used
+// in this Specification.
+// *Cannot* means something the application literally is unable to express or
+// accomplish through the API, while *must not* means something that the
+// application is capable of expressing through the API, but that the
+// consequences of doing so are undefined and potentially unrecoverable for the
+// runtime.
+// ======
