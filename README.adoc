@@ -8,6 +8,7 @@ endif::[]
 
 = OpenXR™ API Documentation Project
 
+中文版网址【翻译中】 https://rioleehit.github.io/dev/openxr-zhCN.html
 This repository contains sources for the formal documentation of the OpenXR
 API. This includes:
 
