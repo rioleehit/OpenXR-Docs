@@ -67,7 +67,7 @@ All other product names, trademarks, and/or company names are used solely
 for identification and belong to their respective owners.
 
 [[introduction]]
-== Introduction
+== 介绍
 
 This chapter is informative except for the section on
 <<introduction-terminology,Normative Terminology>>.
