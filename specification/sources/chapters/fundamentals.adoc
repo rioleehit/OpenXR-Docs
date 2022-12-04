@@ -3,76 +3,105 @@
 // SPDX-License-Identifier: CC-BY-4.0
 
 [[fundamentals]]
-== Fundamentals
+// == Fundamentals
+== Fundamentals(基础知识)
 
 [[api-version-numbers-and-semantics]]
-=== API Version Numbers and Semantics
+// === API Version Numbers and Semantics
+=== API 版本号和语义
 
 
 [open,refpage='XrVersion',type='basetypes',desc='Type indicating multi-part version packed into 64-bit integer']
 --
-Multi-part version numbers are used in several places in the OpenXR API.
+// Multi-part version numbers are used in several places in the OpenXR API.
+多部分版本编号用于OpenXR API的多个位置。
 
 include::{generated}/api/basetypes/XrVersion.txt[]
 
-In each such use, the API major version number, minor version number, and
-patch version number are packed into a 64-bit integer, referred to as
-basetype:XrVersion, as follows:
+// In each such use, the API major version number, minor version number, and
+// patch version number are packed into a 64-bit integer, referred to as
+// basetype:XrVersion, as follows:
+在每种用途中，API主要版本号，次要版本编号和补丁版本编号都包装到64位整数中，称为basetype：xrversion，如下：
 
-.Version Numbers
+.Version Numbers(版本号)
 ****
-* The major version number is a 16-bit integer packed into bits 63-48.
-* The minor version number is a 16-bit integer packed into bits 47-32.
-* The patch version number is a 32-bit integer packed into bits 31-0.
+// * The major version number is a 16-bit integer packed into bits 63-48.
+// * The minor version number is a 16-bit integer packed into bits 47-32.
+// * The patch version number is a 32-bit integer packed into bits 31-0.
+* 主要版本编号是一个16位整数，该整数填充到63-48中。
+* 次要版本编号是一个16位整数，该整数装在47-32中。
+* 补丁版本号是一个32位整数，填充到31-0中。
 ****
 
 --
 
-Differences in any of the version numbers indicate a change to the API, with
-each part of the version number indicating a different scope of change, as
-follows.
+// Differences in any of the version numbers indicate a change to the API, with
+// each part of the version number indicating a different scope of change, as
+// follows.
+任何版本编号的差异表示对API的更改，版本号的每个部分表示更改的范围，如下所示。
 
+// [NOTE]
+// .Note
+// ====
+// // The rules below apply to OpenXR versions 1.0 or later.
+// // Prerelease versions of OpenXR may use different rules for versioning.
+// ====
 [NOTE]
 .Note
 ====
-The rules below apply to OpenXR versions 1.0 or later.
-Prerelease versions of OpenXR may use different rules for versioning.
+以下规则适用于OpenXR版本1.0或更高版本。
+OpenXR的预发行版本可能会使用不同的规则进行版本操作。
 ====
 
-A difference in patch version numbers indicates that some usually small part
-of the specification or header has been modified, typically to fix a bug,
-and may: have an impact on the behavior of existing functionality.
-Differences in the patch version number must: affect neither full
-compatibility nor backwards compatibility between two versions, nor may: it
-add additional interfaces to the API.
-Runtimes may: use patch version number to determine whether to enable
-implementation changes, such as bug fixes, that impact functionality.
-Runtimes should: document any changes that are tied to the patch version.
-Application developers should: retest their application on all runtimes they
-support after compiling with a new version.
 
-A difference in minor version numbers indicates that some amount of new
-functionality has been added.
-This will usually include new interfaces in the header, and may: also
-include behavior changes and bug fixes.
-Functionality may: be deprecated in a minor revision, but must: not be
-removed.
-When a new minor version is introduced, the patch version is reset to 0, and
-each minor revision maintains its own set of patch versions.
-Differences in the minor version number should: not affect backwards
-compatibility, but will affect full compatibility.
+// A difference in patch version numbers indicates that some usually small part
+// of the specification or header has been modified, typically to fix a bug,
+// and may: have an impact on the behavior of existing functionality.
+// Differences in the patch version number must: affect neither full
+// compatibility nor backwards compatibility between two versions, nor may: it
+// add additional interfaces to the API.
+// Runtimes may: use patch version number to determine whether to enable
+// implementation changes, such as bug fixes, that impact functionality.
+// Runtimes should: document any changes that are tied to the patch version.
+// Application developers should: retest their application on all runtimes they
+// support after compiling with a new version.
+补丁程序编号的差异表明，通常修改了规格或标头的某些部分，通常是为了修复错误，
+并且可能：对现有功能的行为产生影响。 补丁版本编号的差异必须：既不影响两个版本
+之间的完整兼容性也不反向兼容，也可以：它在API中添加了其他接口。
+运行时间可能：使用补丁版本编号来确定是否启用了影响功能的实现更改，例如错误修复。
+Runtimes应该：记录与补丁版本相关的任何更改。 应用程序开发人员应：在使用新版本编译后，
+对其支持的所有运行时间进行重新测试。
 
-A difference in major version numbers indicates a large set of changes to
-the API, potentially including new functionality and header interfaces,
-behavioral changes, removal of deprecated features, modification or outright
-replacement of any feature, and is thus very likely to break compatibility.
-Differences in the major version number will typically require significant
-modification to application code in order for it to function properly.
+// A difference in minor version numbers indicates that some amount of new
+// functionality has been added.
+// This will usually include new interfaces in the header, and may: also
+// include behavior changes and bug fixes.
+// Functionality may: be deprecated in a minor revision, but must: not be
+// removed.
+// When a new minor version is introduced, the patch version is reset to 0, and
+// each minor revision maintains its own set of patch versions.
+// Differences in the minor version number should: not affect backwards
+// compatibility, but will affect full compatibility.
+次要版本编号的差异表明已经添加了一些新功能。 这通常包括标题中的新接口，
+可能：还包括行为更改和错误修复。 功能可能：在较小的修订中被弃用，但必须：不删除。 
+当引入新的次要版本时，补丁版将重置为0，每个次要修订版都保持自己的补丁版本集。 
+次要版本编号的差异应：不影响向后兼容性，而是会影响完全兼容性。
 
-The following table attempts to detail the changes that may occur versus
-when they must not be updated (indicating the next version number must be
-updated instead) during an update to any of the major, minor, or patch
-version numbers:
+// A difference in major version numbers indicates a large set of changes to
+// the API, potentially including new functionality and header interfaces,
+// behavioral changes, removal of deprecated features, modification or outright
+// replacement of any feature, and is thus very likely to break compatibility.
+// Differences in the major version number will typically require significant
+// modification to application code in order for it to function properly.
+主要版本编号的差异表明对API的一系列更改，可能包括新功能和标题接口，行为变化，
+删除不弃用的功能，修改或直接替换任何功能，因此很可能会破坏兼容性。 
+主要版本编号的差异通常需要对应用程序代码进行重大修改，以使其正常运行。
+
+// The following table attempts to detail the changes that may occur versus
+// when they must not be updated (indicating the next version number must be
+// updated instead) during an update to any of the major, minor, or patch
+// version numbers:
+下表尝试详细说明不得更新时可能发生的更改（指示必须更新下一个版本号），以更新为任何专业，次要或补丁版本号：
 
 .Scenarios Which May Cause a Version Change
 
@@ -109,152 +138,223 @@ version numbers:
     | must: not{set:cellbgcolor:red}
 |=======================================================================
 
-In the above table, the following identify the various cases in detail:
+// In the above table, the following identify the various cases in detail:
+在上表中，以下详细介绍了各种情况：
 
 [cols="<.<35%e,<.^65%",frame="topbot",grid="none"]
+// |=======================================================================
+// | Extensions Added/Removed {set:cellbgcolor:white}
+//    | An extension may be added or removed with a change at this patch level.
+// | Specification-Optional Behavior Changed
+//    | Some optional behavior laid out in this specification has changed.
+//      Usually this will involve a change in behavior that is marked with the
+//      normatives should: or may:.
+//      For example, a runtime that previously did not validate a particular use
+//      case may now begin validating that use case.
+// | Specification-Required Behavior Changed
+//    | A behavior of runtimes that is required by this specification may: have
+//      changed.
+//      For example, a previously optional validation may: now have become
+//      mandatory for runtimes.
+// | Core Interfaces Added
+//    | New interfaces may: have been added to this specification (and to the
+//      OpenXR header file) in revisions at this level.
+// | Weak Deprecation
+//    | An interface may: have been weakly deprecated at this level.
+//      This may: happen if there is now a better way to accomplish the same thing.
+//      Applications making this call should behave the same as before the
+//      deprecation, but following the new path may be more performant, less
+//      latent, or otherwise yield better results.
+//      It is possible that some runtimes may: choose to give run-time warnings that
+//      the feature has been weakly deprecated and will likely be strongly
+//      deprecated or removed in the future.
+// | Strong Deprecation
+//    | An interface may: have been strongly deprecated at this level.
+//      This means that the interface must: still exist (so applications that are
+//      compiled against it will still run) but it may: now be a no-op, or it may:
+//      be that its behavior has been significantly changed.
+//      It may: be that this functionality is no longer necessary, or that its
+//      functionality has been subsumed by another call.
+//      This should not break an application, but some behavior may: be different
+//      or unanticipated.
+// | Interfaces Changed/Removed
+//    | An interface may: have been changed -- with different parameters or return
+//      types -- at this level.
+//      An interface or feature may: also have been removed entirely.
+//      It is almost certain that rebuilding applications will be required.
+// |=======================================================================
 |=======================================================================
-| Extensions Added/Removed {set:cellbgcolor:white}
-   | An extension may be added or removed with a change at this patch level.
-| Specification-Optional Behavior Changed
-   | Some optional behavior laid out in this specification has changed.
-     Usually this will involve a change in behavior that is marked with the
-     normatives should: or may:.
-     For example, a runtime that previously did not validate a particular use
-     case may now begin validating that use case.
-| Specification-Required Behavior Changed
-   | A behavior of runtimes that is required by this specification may: have
-     changed.
-     For example, a previously optional validation may: now have become
-     mandatory for runtimes.
-| Core Interfaces Added
-   | New interfaces may: have been added to this specification (and to the
-     OpenXR header file) in revisions at this level.
-| Weak Deprecation
-   | An interface may: have been weakly deprecated at this level.
-     This may: happen if there is now a better way to accomplish the same thing.
-     Applications making this call should behave the same as before the
-     deprecation, but following the new path may be more performant, less
-     latent, or otherwise yield better results.
-     It is possible that some runtimes may: choose to give run-time warnings that
-     the feature has been weakly deprecated and will likely be strongly
-     deprecated or removed in the future.
-| Strong Deprecation
-   | An interface may: have been strongly deprecated at this level.
-     This means that the interface must: still exist (so applications that are
-     compiled against it will still run) but it may: now be a no-op, or it may:
-     be that its behavior has been significantly changed.
-     It may: be that this functionality is no longer necessary, or that its
-     functionality has been subsumed by another call.
-     This should not break an application, but some behavior may: be different
-     or unanticipated.
-| Interfaces Changed/Removed
-   | An interface may: have been changed -- with different parameters or return
-     types -- at this level.
-     An interface or feature may: also have been removed entirely.
-     It is almost certain that rebuilding applications will be required.
+| Extensions Added/Removed(添加/删除扩展) {set:cellbgcolor:white}
+   | 可以在此补丁级别上添加或删除扩展名。
+| Specification-Optional Behavior Changed(改变规范-可选行为)
+   | 此规范中规定的一些可选行为已改变。 
+     通常，这将涉及具有规范标记的行为的变化：或可能： 
+     例如，以前未验证特定用例的运行时间现在可以开始验证该用例。
+| Specification-Required Behavior Changed(改变规范-必需行为)
+   | 此规范要求的运行时间行为可能：已更改。 
+     例如，以前的可选验证可能：现在已成为运行时间的强制性。
+| Core Interfaces Added(添加了核心接口)
+   | 在此级别的修订版中，新的接口可能：已添加到此规范中（以及OpenXR标头文件）。
+| Weak Deprecation(弱废弃)
+   | 界面可能：在此级别上被贬低。 这可能是：如果现在有一种更好的方法来完成同一件事，
+     就会发生。 进行此通话的应用程序的行为应与贬值之前相同，但是遵循新路径可能更具性能，
+     潜在或以其他方式产生更好的结果。 一些运行时间可能：选择发出时间警告，
+     即该功能已被贬低，并且将来可能会被强烈贬值或删除。
+| Strong Deprecation(强废弃)
+   | 界面可能：在此级别上已强烈弃用。 这意味着界面必须：仍然存在（因此，
+     针对它编译的应用程序仍将运行），但是它可能：现在是一个no-op，
+     或者可能：它的行为已发生了显着更改。 可能：不再需要此功能，
+     或者它的功能已被另一个调用所包含。 这不应该打破应用程序，
+     但是某些行为可能是不同的或意外的。
+| Interfaces Changed/Removed(改变/移除接口)
+   | 接口可能：在此级别上已更改（具有不同的参数或返回类型）。
+     接口或功能可能：也已完全删除。
+     几乎可以肯定的是，需要重建申请。
 |=======================================================================
 
 [[string-encoding]]
-=== String Encoding
+=== String Encoding(字符串编码)
 
-This API uses strings as input and output for some functions.
-Unless otherwise specified, all such strings are code:NULL terminated UTF-8
-encoded case-sensitive character arrays.
+// This API uses strings as input and output for some functions.
+// Unless otherwise specified, all such strings are code:NULL terminated UTF-8
+// encoded case-sensitive character arrays.
+该API使用字符串作为某些功能的输入和输出。
+除非另有说明，否则所有此类字符串均为代码：NULL终止UTF-8
+编码的情况敏感字符阵列。
 
 [[threading-behavior]]
-=== Threading Behavior
+=== Threading Behavior(线程行为)
 
-The OpenXR API is intended to provide scalable performance when used on
-multiple host threads.
-All functions must: support being called concurrently from multiple threads,
-but certain parameters, or components of parameters are defined to be
-externally synchronized.
-This means that the caller must: guarantee that no more than one thread is
-using such a parameter at a given time.
+// The OpenXR API is intended to provide scalable performance when used on
+// multiple host threads.
+// All functions must: support being called concurrently from multiple threads,
+// but certain parameters, or components of parameters are defined to be
+// externally synchronized.
+// This means that the caller must: guarantee that no more than one thread is
+// using such a parameter at a given time.
+OpenXR API旨在在多个主机线程上使用时提供可扩展性能。
+所有函数必须：支持从多个线程同时调用，但是将某些参数或参数组件定义为外部同步。
+这意味着呼叫者必须：确保在给定时间使用此参数不超过一个线程。
 
-More precisely, functions use simple stores to update software structures
-representing objects.
-A parameter declared as externally synchronized may: have its software
-structures updated at any time during the host execution of the function.
-If two functions operate on the same object and at least one of the
-functions declares the object to be externally synchronized, then the caller
-must: guarantee not only that the functions do not execute simultaneously,
-but also that the two functions are separated by an appropriate memory
-barrier if needed.
+// More precisely, functions use simple stores to update software structures
+// representing objects.
+// A parameter declared as externally synchronized may: have its software
+// structures updated at any time during the host execution of the function.
+// If two functions operate on the same object and at least one of the
+// functions declares the object to be externally synchronized, then the caller
+// must: guarantee not only that the functions do not execute simultaneously,
+// but also that the two functions are separated by an appropriate memory
+// barrier if needed.
+更确切地说，功能使用简单商店来更新代表对象的软件结构。 
+声明为外部同步的参数可能：在函数执行期间的任何时间都会更新其软件结构。 
+如果两个函数在同一对象上运行，并且至少一个函数声明要外部同步的对象，
+则呼叫者必须：不仅保证函数不同时执行，而且两个函数也由适当的函数分开 如果需要，记忆障碍。
 
-For all functions which destroy an object handle, the application must:
-externally synchronize the object handle parameter and any child handles.
+// For all functions which destroy an object handle, the application must:
+// externally synchronize the object handle parameter and any child handles.
+对于所有破坏对象处理的功能，应用程序必须：
+外部同步对象手柄参数和任何子手柄。
 
 include::{generated}/hostsynctable/parameters.txt[]
 include::{generated}/hostsynctable/parameterlists.txt[]
 include::{generated}/hostsynctable/implicit.txt[]
 
 [[multiprocessing-behavior]]
-=== Multiprocessing Behavior
+=== Multiprocessing Behavior(多线程)
 
-The OpenXR API does not explicitly recognize nor require support for
-multiple processes using the runtime simultaneously, nor does it prevent a
-runtime from providing such support.
+// The OpenXR API does not explicitly recognize nor require support for
+// multiple processes using the runtime simultaneously, nor does it prevent a
+// runtime from providing such support.
+OpenXR API不能同时使用运行时明确识别，也不需要对多个进程的支持，也不会阻止运行时提供此类支持。
 
 [[runtime]]
-=== Runtime
+=== Runtime(运行时)
 
-An OpenXR runtime is software which implements the OpenXR API.
-There may: be more than one OpenXR runtime installed on a system, but only
-one runtime can be active at any given time.
+// An OpenXR runtime is software which implements the OpenXR API.
+// There may: be more than one OpenXR runtime installed on a system, but only
+// one runtime can be active at any given time.
+OpenXR运行时是实现OpenXR API的软件。 
+可能会：系统上安装了一个以上的OpenXR运行时，
+但是在任何给定时间只能活跃一个运行时。
 
 [[extensions]]
-=== Extensions
+=== Extensions(扩展)
 
-OpenXR is an extensible API that can: grow through the addition of new
-features.
-Similar to other Khronos APIs, extensions can: be used to expose new OpenXR
-functions or modify the behavior of existing OpenXR functions.
-Extensions are optional and therefore must: be enabled by the application
-before the extended functionality is made available.
-Because extensions are optional, they may: be implemented only on a subset
-of runtimes, graphics platforms, or operating systems.
-Therefore, an application should: first query which extensions are available
-before enabling.
+// OpenXR is an extensible API that can: grow through the addition of new
+// features.
+// Similar to other Khronos APIs, extensions can: be used to expose new OpenXR
+// functions or modify the behavior of existing OpenXR functions.
+// Extensions are optional and therefore must: be enabled by the application
+// before the extended functionality is made available.
+// Because extensions are optional, they may: be implemented only on a subset
+// of runtimes, graphics platforms, or operating systems.
+// Therefore, an application should: first query which extensions are available
+// before enabling.
 
-The application queries the available list of extensions using the
-flink:xrEnumerateInstanceExtensionProperties function.
-Once an application determines which target extensions are supported, it
-can: enable some subset of them during the call to flink:xrCreateInstance.
+// The application queries the available list of extensions using the
+// flink:xrEnumerateInstanceExtensionProperties function.
+// Once an application determines which target extensions are supported, it
+// can: enable some subset of them during the call to flink:xrCreateInstance.
 
-OpenXR extensions have unique names that convey information about what
-functionality is provided.
-The names have the following format:
+// OpenXR extensions have unique names that convey information about what
+// functionality is provided.
+// The names have the following format:
+OpenXR是一种可扩展的API，可以：通过添加新功能而增长。 
+与其他Khronos API相似，可以使用扩展：用于公开新的OpenXR函数或修改现有OpenXR函数的行为。 
+扩展是可选的，因此必须：在提供扩展功能之前，由应用程序启用。 
+由于扩展是可选的，因此可以：仅在运行时间，图形平台或操作系统的子集中实现。
+因此，应用程序应：首先查询在启用之前可以使用哪些扩展名。 
+ 
+该应用程序使用Flink：XrenumerateInstanceExtensionProperties函数查询扩展名的可用列表。
+一旦应用程序确定了支持哪些目标扩展，它可以：在呼叫中启用其中的某些子集：XRCREATEATEINSTANCE。
+  
+OpenXR扩展名具有独特的名称，可以传达有关提供什么功能的信息。 名称具有以下格式：
 
-.Extension Name Formatting
+.Extension Name Formatting(扩展名字格式)
+// ****
+// * The prefix "code:XR_" to identify this as an OpenXR extension
+// * A string identifier for the vendor tag, which corresponds to the company
+//   or group exposing the extension.
+//   The vendor tag must: use only uppercase letters and decimal digits.
+//   Some examples include:
+// ** "code:KHR" for Khronos extensions, supported by multiple vendors.
+// ** "code:EXT" for non-Khronos extensions supported by multiple vendors.
+// * An underscore "code:_".
+// * A string uniquely identifying the extension.
+//   The string is a compound of substrings which must: use only lower case
+//   letters and decimal digits.
+//   The substrings are delimited with single underscores.
+// ****
 ****
-* The prefix "code:XR_" to identify this as an OpenXR extension
-* A string identifier for the vendor tag, which corresponds to the company
-  or group exposing the extension.
-  The vendor tag must: use only uppercase letters and decimal digits.
-  Some examples include:
-** "code:KHR" for Khronos extensions, supported by multiple vendors.
-** "code:EXT" for non-Khronos extensions supported by multiple vendors.
-* An underscore "code:_".
-* A string uniquely identifying the extension.
-  The string is a compound of substrings which must: use only lower case
-  letters and decimal digits.
-  The substrings are delimited with single underscores.
+* 前缀“代码：xr_”将其识别为OpenXR扩展程序
+* 供应商标签的字符串标识符，该标识符对应于公司或集团公开扩展名。
+   供应商标签必须：仅使用大写字母和十进制数字。 一些示例包括：
+** 针对Khronos扩展名的“代码：KHR”，由多个供应商支持。
+** 多个供应商支持的非Khronos扩展名的“代码：ext”。
+* 下划线“代码：_”。
+* 一个唯一识别扩展名的字符串。
+   字符串是子字符串的化合物，必须：仅使用小写字母和十进制数字。
+   用单个下划线界定子字符串。
 ****
 
-For example: `<<XR_KHR_composition_layer_cube>>` is an OpenXR extension
-created by the Khronos (KHR) OpenXR Working Group to support cube
-composition layers.
+// For example: `<<XR_KHR_composition_layer_cube>>` is an OpenXR extension
+// created by the Khronos (KHR) OpenXR Working Group to support cube
+// composition layers.
+例如：`<< xr_khr_composition_layer_cube >>`是由Khronos（KHR）OpenXR工作组创建的OpenXR扩展程序，以支持Cube Coble层。
 
-The public list of available extensions known at the time of this
-specification being generated appears in the
+// The public list of available extensions known at the time of this
+// specification being generated appears in the
+此后已知的可用扩展名的公共列表
+生成的规范出现在本文档末尾的
 ifndef::HAS_DEPRECATED_EXTENSIONS[]
-<<extension-appendices-list, List of Extensions>>
+// <<extension-appendices-list, List of Extensions>>
+<<extension-appendices-list, 扩展附录列表>>
 endif::HAS_DEPRECATED_EXTENSIONS[]
 ifdef::HAS_DEPRECATED_EXTENSIONS[]
-<<extension-appendices-list, List of Current Extensions>>
+// <<extension-appendices-list, List of Current Extensions>>
+<<extension-appendices-list, 当前扩展附录列表>>
 endif::HAS_DEPRECATED_EXTENSIONS[]
-appendix at the end of this document.
+// appendix at the end of this document.
 
 [[api-layers]]
 === API Layers
