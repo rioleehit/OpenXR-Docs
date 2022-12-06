@@ -357,150 +357,201 @@ endif::HAS_DEPRECATED_EXTENSIONS[]
 // appendix at the end of this document.
 
 [[api-layers]]
-=== API Layers
-OpenXR is designed to be a layered API, which means that a user or
-application may: insert API layers between the application and the runtime
-implementation.
-These API layers provide additional functionality by intercepting OpenXR
-functions from the layer above and then performing different operations than
-would otherwise be performed without the layer.
-In the simplest cases, the layer simply calls the next layer down with the
-same arguments, but a more complex layer may implement API functionality
-that is not present in the layers or runtime below it.
-This mechanism is essentially an architected "function shimming" or
-"intercept" feature that is designed into OpenXR and meant to replace more
-informal methods of "hooking" API calls.
+=== API Layers(API层)
+// OpenXR is designed to be a layered API, which means that a user or
+// application may: insert API layers between the application and the runtime
+// implementation.
+// These API layers provide additional functionality by intercepting OpenXR
+// functions from the layer above and then performing different operations than
+// would otherwise be performed without the layer.
+// In the simplest cases, the layer simply calls the next layer down with the
+// same arguments, but a more complex layer may implement API functionality
+// that is not present in the layers or runtime below it.
+// This mechanism is essentially an architected "function shimming" or
+// "intercept" feature that is designed into OpenXR and meant to replace more
+// informal methods of "hooking" API calls.
+OpenXR 被设计为分层 API，这意味着用户或应用程序可以： 在应用程序和运行时实现之间插入 API 层。 
+这些 API 层通过拦截来自上层的 OpenXR 函数然后执行与没有该层时不同的操作来提供额外的功能。 
+在最简单的情况下，该层仅使用相同的参数向下调用下一层，但更复杂的层可能会实现其下层或运行时中
+不存在的 API 功能。 这种机制本质上是一种架构的“函数填充”或“拦截”功能，它被设计到 OpenXR 中，
+旨在取代更多非正式的“挂钩”API 调用方法。
 
-==== Examples of API Layers
-===== Validation Layer
-The layered API approach employed by OpenXR allows for the expensive
-validation of correct API usage to be implemented in a "validation" layer.
-This layer allows the application developer to develop their application
-with the validation layer active to ensure that the application is using the
-API correctly.
-The validation layer confirms that the application has set up object state
-correctly, has provided the required data for each function, ensures that
-required resources are available, etc.
-If the validation layer detects a problem, it issues an error message that
-can be logged or captured by the application via a callback.
-After the developer has determined that the application is correct, they
-turn off the validation layer to allow the application to run in a
-production environment without repeatedly incurring the validation expense.
+==== Examples of API Layers(API层的例子)
+===== Validation Layer(验证层)
+// The layered API approach employed by OpenXR allows for the expensive
+// validation of correct API usage to be implemented in a "validation" layer.
+// This layer allows the application developer to develop their application
+// with the validation layer active to ensure that the application is using the
+// API correctly.
+// The validation layer confirms that the application has set up object state
+// correctly, has provided the required data for each function, ensures that
+// required resources are available, etc.
+// If the validation layer detects a problem, it issues an error message that
+// can be logged or captured by the application via a callback.
+// After the developer has determined that the application is correct, they
+// turn off the validation layer to allow the application to run in a
+// production environment without repeatedly incurring the validation expense.
+OpenXR 采用的分层 API 方法允许在“验证”层中对正确的 API 使用进行昂贵的验证。 
+该层允许应用程序开发人员在激活验证层的情况下开发他们的应用程序，以确保应用程序正确使用 API。 
+验证层确认应用程序已正确设置对象状态，已为每个功能提供所需数据，确保所需资源可用等。
+如果验证层检测到问题，它会发出错误消息，可以记录或 由应用程序通过回调捕获。 
+开发人员在确定应用程序无误后，关闭验证层，让应用程序在生产环境中运行，而无需重复产生验证费用。
 
-===== API Logging Layer
-Another example of an API layer is an API logging layer that simply
-serializes all the API calls to an output sink in a text format, including
-printing out argument values and structure contents.
+===== API Logging Layer(API日志层)
+// Another example of an API layer is an API logging layer that simply
+// serializes all the API calls to an output sink in a text format, including
+// printing out argument values and structure contents.
+API 层的另一个示例是 API 日志记录层，
+它简单地将所有 API 调用序列化为文本格式的输出接收器，
+包括打印出参数值和结构内容。
 
-===== API Trace Layer
-A related API trace layer produces a trace file that contains all the
-information provided to the API so that the trace file can be played back by
-a replay program.
+===== API Trace Layer(API跟踪层)
+// A related API trace layer produces a trace file that contains all the
+// information provided to the API so that the trace file can be played back by
+// a replay program.
+相关的 API 跟踪层生成一个跟踪文件，其中包含提供给 API 的所有信息，以便重放程序可以回放跟踪文件。
 
-==== Naming API Layers
-To organize API layer names and prevent collisions in the API layer name
-namespace, API layers must: be named using the following convention:
+==== Naming API Layers(API层命名方式)
+// To organize API layer names and prevent collisions in the API layer name
+// namespace, API layers must: be named using the following convention:
+为了组织 API 层名称并防止 API 层名称命名空间中的冲突，API 层必须： 使用以下约定命名：
 
 ```
-XR_APILAYER_<VENDOR-TAG>_short_name
+XR_APILAYER_<VENDOR-TAG(供应商标记)>_short_name
 ```
 
-Vendors are responsible for registering a vendor tag with the OpenXR working
-group and just like for implementors, they must maintain their vendor
-namespace.
+// Vendors are responsible for registering a vendor tag with the OpenXR working
+// group and just like for implementors, they must maintain their vendor
+// namespace.
+供应商负责向 OpenXR 工作组注册供应商标签，就像实现开发者一样，他们必须维护自己的供应商名称空间。
 
-Example of an API layer name produced by the Acme company for the "check
-best practices" API layer:
+// Example of an API layer name produced by the Acme company for the "check
+// best practices" API layer:
+Acme 公司为“检查最佳实践(check best practices)”API 层生成的 API 层名称示例：
 
 ```
 XR_APILAYER_ACME_check_best_practices
 ```
 
-==== Activating API Layers
+==== Activating API Layers(激活 API 层)
 
-===== Application Activation
-Applications can: determine the API layers that are available to them by
-calling the flink:xrEnumerateApiLayerProperties function to obtain a list of
-available API layers.
-Applications then can: select the desired API layers from this list and
-provide them to the flink:xrCreateInstance function when creating an
-instance.
+===== Application Activation(应用程序激活)
+// Applications can: determine the API layers that are available to them by
+// calling the flink:xrEnumerateApiLayerProperties function to obtain a list of
+// available API layers.
+// Applications then can: select the desired API layers from this list and
+// provide them to the flink:xrCreateInstance function when creating an
+// instance.
+应用程序可以： 通过调用 flink:xrEnumerateApiLayerProperties 函数来获取可用 API 层列表，从而确定它们可用的 API 层。
+然后，应用程序可以： 从该列表中选择所需的 API 层，并在创建实例时将它们提供给 flink:xrCreateInstance 函数。
 
-===== System Activation
-Application users or users performing roles such as system integrator or
-system administrator may: configure a system to activate API layers without
-involvement from the applications.
-These platform-dependent steps may: include the installation of API
-layer-related files, setting environment variables, or other
-platform-specific operations.
-The options that are available for configuring the API layers in this manner
-are also dependent on the platform and/or runtime.
+===== System Activation(系统激活)
+// Application users or users performing roles such as system integrator or
+// system administrator may: configure a system to activate API layers without
+// involvement from the applications.
+// These platform-dependent steps may: include the installation of API
+// layer-related files, setting environment variables, or other
+// platform-specific operations.
+// The options that are available for configuring the API layers in this manner
+// are also dependent on the platform and/or runtime.
+应用程序用户或执行系统集成商或系统管理员等角色的用户可以： 配置系统以激活 API 层，而无需应用程序参与。 
+这些平台相关的步骤可能：包括安装 API 层相关文件、设置环境变量或其他平台特定的操作。 
+可用于以这种方式配置 API 层的选项也取决于平台和/或运行时。
 
-==== API Layer Extensions
-API layers may: implement OpenXR functions that may or may not be supported
-by the underlying runtime.
-In order to expose these new features, the API layer must expose this
-functionality in the form of an OpenXR <<extensions,extension>>.
-It must: not expose new OpenXR functions without an associated extension.
+==== API Layer Extensions(API 层扩展)
+// API layers may: implement OpenXR functions that may or may not be supported
+// by the underlying runtime.
+// In order to expose these new features, the API layer must expose this
+// functionality in the form of an OpenXR <<extensions,extension>>.
+// It must: not expose new OpenXR functions without an associated extension.
 
-For example, an OpenXR API-logging API layer might expose an API function to
-allow the application to turn logging on for only a portion of its
-execution.
-Since new functions must: be exposed through an extension, the vendor has
-created an extension called `XR_ACME_logging_on_off` to contain these new
-functions.
-The application should: query if the API layer supports the extension and
-then, only if it exists, enable both the extension and the API layer by name
-during flink:xrCreateInstance.
+// For example, an OpenXR API-logging API layer might expose an API function to
+// allow the application to turn logging on for only a portion of its
+// execution.
+// Since new functions must: be exposed through an extension, the vendor has
+// created an extension called `XR_ACME_logging_on_off` to contain these new
+// functions.
+// The application should: query if the API layer supports the extension and
+// then, only if it exists, enable both the extension and the API layer by name
+// during flink:xrCreateInstance.
 
-To find out what extensions an API layer supports, an application must:
-first verify that the API layer exists on the current system by calling
-flink:xrEnumerateApiLayerProperties.
-After verifying an API layer of interest exists, the application then
-should: call flink:xrEnumerateInstanceExtensionProperties and provide the
-API layer name as the first parameter.
-This will return the list of extensions implemented internally in that API
-layer.
+// To find out what extensions an API layer supports, an application must:
+// first verify that the API layer exists on the current system by calling
+// flink:xrEnumerateApiLayerProperties.
+// After verifying an API layer of interest exists, the application then
+// should: call flink:xrEnumerateInstanceExtensionProperties and provide the
+// API layer name as the first parameter.
+// This will return the list of extensions implemented internally in that API
+// layer.
+API 层可以： 实现底层运行时可能支持或不支持的 OpenXR 功能。 为了公开这些新功能，
+API 层必须以 OpenXR 
+// <<extensions,extension>> 
+<<extensions,扩展>> 
+的形式公开此功能。 
+它必须： 不公开没有关联扩展的新 OpenXR 函数。
+
+例如，OpenXR API 日志记录 API 层可能会公开一个 API 函数，以允许应用程序仅为其执行的一部分打开日志记录。 
+由于新功能必须： 通过扩展公开，供应商创建了一个名为“XR_ACME_logging_on_off”的扩展来包含这些新功能。 
+应用程序应该：查询 API 层是否支持扩展，然后，仅当存在时，在 flink:xrCreateInstance 期间按名称启用扩展和 API 层。 
+
+要找出 API 层支持哪些扩展，应用程序必须： 首先通过调用 flink:xrEnumerateApiLayerProperties 验证 API 层是否存在于当前系统上。 
+在验证存在感兴趣的 API 层后，应用程序应：调用 flink:xrEnumerateInstanceExtensionProperties 并提供 API 层名称作为第一个参数。 
+这将返回在该 API 层内部实现的扩展列表。
 
 [[type-aliasing]]
-==== Type Aliasing
+==== Type Aliasing(类型别名)
 
-Type aliasing refers to the situation in which the actual type of a element
-does not match the declared type.
-Some C and C++ compilers can be configured to assume that the actual type
-matches the declared type, and may be so configured by default at common
-optimization levels.
-Without this, otherwise undefined behavior may occur.
-This compiler feature is typically referred to as "strict aliasing," and it
-can usually be enabled or disabled via compiler options.
-The OpenXR specification does not support strict aliasing, as there are some
-cases in which an application intentionally provides a struct with a type
-that differs from the declared type.
-For example, slink:XrFrameEndInfo::pname:layers is an array of type
-code:const slink:XrCompositionLayerBaseHeader code:* code:const.
-However, the array must: be of one of the specific layer types, such as
-slink:XrCompositionLayerQuad.
-Similarly, flink:xrEnumerateSwapchainImages accepts an array of
-slink:XrSwapchainImageBaseHeader, whereas the actual type passed must: be an
-array of a type such as slink:XrSwapchainImageVulkanKHR.
-For OpenXR to work correctly, the compiler must: support the type aliasing
-described here.
+// Type aliasing refers to the situation in which the actual type of a element
+// does not match the declared type.
+// Some C and C++ compilers can be configured to assume that the actual type
+// matches the declared type, and may be so configured by default at common
+// optimization levels.
+// Without this, otherwise undefined behavior may occur.
+// This compiler feature is typically referred to as "strict aliasing," and it
+// can usually be enabled or disabled via compiler options.
+// The OpenXR specification does not support strict aliasing, as there are some
+// cases in which an application intentionally provides a struct with a type
+// that differs from the declared type.
+// For example, slink:XrFrameEndInfo::pname:layers is an array of type
+// code:const slink:XrCompositionLayerBaseHeader code:* code:const.
+// However, the array must: be of one of the specific layer types, such as
+// slink:XrCompositionLayerQuad.
+// Similarly, flink:xrEnumerateSwapchainImages accepts an array of
+// slink:XrSwapchainImageBaseHeader, whereas the actual type passed must: be an
+// array of a type such as slink:XrSwapchainImageVulkanKHR.
+// For OpenXR to work correctly, the compiler must: support the type aliasing
+// described here.
+类型别名是指元素的实际类型与声明的类型不匹配的情况。 
+某些 C 和 C++ 编译器可以配置为假设实际类型与声明的类型相匹配，并且可以在常见优化级别默认配置。 
+没有这个，否则可能会发生未定义的行为。 此编译器功能通常称为“严格别名”，通常可以通过编译器选项启用或禁用。 
+OpenXR 规范不支持严格的别名，因为在某些情况下，应用程序会故意提供一个类型与声明类型不同的结构。 
+例如，slink:XrFrameEndInfo::pname:layers 
+是一个类型为 code:const slink:XrCompositionLayerBaseHeader code:* code:const 的数组。 
+但是，数组必须： 属于特定层类型之一，例如 slink:XrCompositionLayerQuad。 
+类似地，flink:xrEnumerateSwapchainImages 接受一个 slink:XrSwapchainImageBaseHeader 的数组，
+而实际传递的类型必须：是一个类型的数组，例如 slink:XrSwapchainImageVulkanKHR。 
+为使 OpenXR 正常工作，编译器必须： 支持此处描述的类型别名。
 
 [open,refpage='XR_MAY_ALIAS',type='defines',desc='Convenience macro to annotate types and pointers affirmatively known to alias']
 --
 include::{generated}/api/defines/XR_MAY_ALIAS.txt[]
 
-As a convenience, some types and pointers that are known at specification
-time to alias values of different types have been annotated with the
-dlink:XR_MAY_ALIAS definition.
-If this macro is not defined before including OpenXR headers, and a new
-enough Clang or GCC compiler is used, it will be defined to the
-compiler-specific attribute annotation to inform these compilers that those
-pointers may alias.
-However, there is no guarantee that all aliasing types or pointers have been
-correctly marked with this macro, so thorough testing is still recommended
-if you choose (at your own risk) to permit your compiler to perform
-type-based aliasing analysis.
+// As a convenience, some types and pointers that are known at specification
+// time to alias values of different types have been annotated with the
+// dlink:XR_MAY_ALIAS definition.
+// If this macro is not defined before including OpenXR headers, and a new
+// enough Clang or GCC compiler is used, it will be defined to the
+// compiler-specific attribute annotation to inform these compilers that those
+// pointers may alias.
+// However, there is no guarantee that all aliasing types or pointers have been
+// correctly marked with this macro, so thorough testing is still recommended
+// if you choose (at your own risk) to permit your compiler to perform
+// type-based aliasing analysis.
+为方便起见，在规范时已知的一些类型和指针已使用 dlink:XR_MAY_ALIAS 
+定义注释了不同类型的别名值。 如果在包含 OpenXR 标头之前未定义此宏，
+并且使用了足够新的 Clang 或 GCC 编译器，则会将其定义为特定于编译器的属性注释，
+以通知这些编译器这些指针可能存在别名。 但是，不能保证所有别名类型或指针都已使用此宏正确标记，
+因此如果您选择（风险自负）允许编译器执行基于类型的别名分析，仍建议进行彻底测试。
 
 ifdef::doctype-manpage[]
 // This link is redundant in the full spec, but important in the extracted refpages.
@@ -510,122 +561,165 @@ endif::[]
 --
 
 [[valid-usage]]
-==== Valid Usage
+==== Valid Usage(有效用法)
 
-Valid usage defines a set of conditions which must: be met in order to
-achieve well-defined run-time behavior in an application.
-These conditions depend only on API state, and the parameters or objects
-whose usage is constrained by the condition.
+// Valid usage defines a set of conditions which must: be met in order to
+// achieve well-defined run-time behavior in an application.
+// These conditions depend only on API state, and the parameters or objects
+// whose usage is constrained by the condition.
 
-Some valid usage conditions have dependencies on runtime limits or feature
-availability.
-It is possible to validate these conditions against the API's minimum or
-maximum supported values for these limits and features, or some subset of
-other known values.
+// Some valid usage conditions have dependencies on runtime limits or feature
+// availability.
+// It is possible to validate these conditions against the API's minimum or
+// maximum supported values for these limits and features, or some subset of
+// other known values.
 
-Valid usage conditions should: apply to a function or structure where
-complete information about the condition would be known during execution of
-an application.
-This is such that a validation API layer or linter can: be written directly
-against these statements at the point they are specified.
+// Valid usage conditions should: apply to a function or structure where
+// complete information about the condition would be known during execution of
+// an application.
+// This is such that a validation API layer or linter can: be written directly
+// against these statements at the point they are specified.
+有效用法定义了一组必须满足的条件： 为了在应用程序中实现明确定义的运行时行为。 
+这些条件仅取决于 API 状态，以及使用受条件约束的参数或对象。 
+
+一些有效的使用条件依赖于运行时限制或功能可用性。 可以根据 API 对这些限制和
+功能的最小或最大支持值或其他已知值的某些子集来验证这些条件。 
+
+有效的使用条件应该： 适用于函数或结构，在执行应用程序期间可以知道有关条件的完整信息。 
+这使得验证 API 层或 linter 可以： 在指定这些语句时直接针对这些语句编写。
 
 [[implicit-valid-usage]]
-==== Implicit Valid Usage
+==== Implicit Valid Usage(隐式有效用法)
 
-Some valid usage conditions apply to all functions and structures in the
-API, unless explicitly denoted otherwise for a specific function or
-structure.
-These conditions are considered implicit.
-Implicit valid usage conditions are described in detail below.
+// Some valid usage conditions apply to all functions and structures in the
+// API, unless explicitly denoted otherwise for a specific function or
+// structure.
+// These conditions are considered implicit.
+// Implicit valid usage conditions are described in detail below.
+一些有效的使用条件适用于 API 中的所有函数和结构，除非针对特定函数或结构体。
+这些条件被认为是隐含的。 
+隐含的有效使用条件在下面详细描述。
 
 [[valid-usage-for-object-handles]]
-===== Valid Usage for Object Handles
+===== Valid Usage for Object Handles(对象句柄的有效用法)
 
-Any input parameter to a function that is an object handle must: be a valid
-object handle, unless otherwise specified.
-An object handle is valid if and only if:
+// Any input parameter to a function that is an object handle must: be a valid
+// object handle, unless otherwise specified.
+// An object handle is valid if and only if:
+作为对象句柄的函数的任何输入参数必须： 是有效的对象句柄，除非另有说明。
+当且仅当满足以下条件时，对象句柄才有效：
 
-.Object Handle Validity Conditions
+.Object Handle Validity Conditions(对象句柄有效性条件)
+// ****
+// * it has been created or allocated by a previous, successful call to the
+// API,
+// * it has not been destroyed by a previous call to the API, and
+// * its parent handle is also valid.
+// ****
 ****
-* it has been created or allocated by a previous, successful call to the
-API,
-* it has not been destroyed by a previous call to the API, and
-* its parent handle is also valid.
+* 它已由先前成功调用创建或分配应用程序接口,
+* 它没有被之前对 API 的调用销毁，并且
+* 它的父句柄也是有效的。
 ****
 
-There are contexts in which an object handle is optional: or otherwise
-unspecified.
-In those cases, the API uses dlink:XR_NULL_HANDLE, which has the integer
-value code:0.
+// There are contexts in which an object handle is optional: or otherwise
+// unspecified.
+// In those cases, the API uses dlink:XR_NULL_HANDLE, which has the integer
+// value code:0.
+在某些上下文中，对象句柄是可选的：或者未指定。
+在这些情况下，API 使用 dlink:XR_NULL_HANDLE，它具有整数值 
+code：0。
 
 [[valid-usage-for-pointers]]
-===== Valid Usage for Pointers
+===== Valid Usage for Pointers(指针的有效用法)
 
-Any parameter that is a pointer must: be a valid pointer when the
-specification indicates that the runtime uses the pointer.
-A pointer is valid if and only if it points at memory containing values of
-the number and type(s) expected by the function, and all fundamental types
-accessed through the pointer (e.g. as elements of an array or as members of
-a structure) satisfy the alignment requirements of the host processor.
-
+// Any parameter that is a pointer must: be a valid pointer when the
+// specification indicates that the runtime uses the pointer.
+// A pointer is valid if and only if it points at memory containing values of
+// the number and type(s) expected by the function, and all fundamental types
+// accessed through the pointer (e.g. as elements of an array or as members of
+// a structure) satisfy the alignment requirements of the host processor.
+任何作为指针的参数必须： 当规范指示运行时使用指针时，它是一个有效的指针。 
+当且仅当指针指向包含函数期望的数字和类型值的内存时，指针才有效，
+并且通过指针访问的所有基本类型（例如，作为数组的元素或作为结构的成员）满足 主机处理器的对齐要求。
 
 [[valid-usage-for-enumerated-types]]
-===== Valid Usage for Enumerated Types
+===== Valid Usage for Enumerated Types(枚举类型的有效用法)
 
-Any parameter of an enumerated type must: be a valid enumerant for that
-type.
-An enumerant is valid if and only if the enumerant is defined as part of the
-enumerated type in question.
+// Any parameter of an enumerated type must: be a valid enumerant for that
+// type.
+// An enumerant is valid if and only if the enumerant is defined as part of the
+// enumerated type in question.
+枚举类型的任何参数必须： 是该类型的有效枚举。
+当且仅当枚举数被定义为相关枚举类型的一部分时，枚举数才有效。
 
 [[valid-usage-for-flags]]
-===== Valid Usage for Flags
+===== Valid Usage for Flags(标记的有效用法)
 [open,refpage='XrFlags64',desc='OpenXR bitmasks',type='basetypes',xrefs='XrInstanceCreateFlags XrSessionCreateFlags XrSwapchainCreateFlags XrSwapchainUsageFlags XrViewStateFlags XrCompositionLayerFlags XrSpaceLocationFlags']
 --
-A collection of flags is represented by a bitmask using the type
+// A collection of flags is represented by a bitmask using the type
+标志集合由使用类型的位掩码表示
 basetype:XrFlags64:
 
 include::{generated}/api/basetypes/XrFlags64.txt[]
 
-Bitmasks are passed to many functions and structures to compactly represent
-options and are stored in memory defined by the basetype:XrFlags64 type.
-But the API does not use the basetype:XrFlags64 type directly.
-Instead, a stext:Xr*Flags type is used which is an alias of the
-basetype:XrFlags64 type.
-The API also defines a set of constant bit definitions used to set the
-bitmasks.
+// Bitmasks are passed to many functions and structures to compactly represent
+// options and are stored in memory defined by the basetype:XrFlags64 type.
+// But the API does not use the basetype:XrFlags64 type directly.
+// Instead, a stext:Xr*Flags type is used which is an alias of the
+// basetype:XrFlags64 type.
+// The API also defines a set of constant bit definitions used to set the
+// bitmasks.
+位掩码被传递给许多函数和结构以紧凑地表示选项，并存储在由 basetype:XrFlags64 类型定义的内存中。 
+但是API并没有直接使用basetype:XrFlags64类型。 相反，使用了 stext:Xr*Flags 类型，
+它是 basetype:XrFlags64 类型的别名。 API 还定义了一组用于设置位掩码的常量位定义。
+
 --
 
-Any stext:Xr*Flags member or parameter used in the API must: be a valid
-combination of bit flags.
-A valid combination is either zero or the bitwise code:OR of valid bit
-flags.
-A bit flag is valid if and only if:
+// Any stext:Xr*Flags member or parameter used in the API must: be a valid
+// combination of bit flags.
+// A valid combination is either zero or the bitwise code:OR of valid bit
+// flags.
+// A bit flag is valid if and only if:
+API 中使用的任何 stext:Xr*Flags 成员或参数必须： 是位标志的有效组合。
+有效组合是零或按位代码：有效位标志的或。
+当且仅当：
 
-.Bit Flag Validity
+.Bit Flag Validity(位标志有效性)
+// ****
+// * The bit flag is one of the constant bit definitions defined by the same
+//   stext:Xr*Flags type as the stext:Xr*Flags member or parameter.
+//   Valid flag values may also be defined by extensions.
+// * The flag is allowed in the context in which it is being used.
+//   For example, in some cases, certain bit flags or combinations of bit flags
+//   are mutually exclusive.
+// ****
 ****
-* The bit flag is one of the constant bit definitions defined by the same
-  stext:Xr*Flags type as the stext:Xr*Flags member or parameter.
-  Valid flag values may also be defined by extensions.
-* The flag is allowed in the context in which it is being used.
-  For example, in some cases, certain bit flags or combinations of bit flags
-  are mutually exclusive.
+* 位标志是由与 stext:Xr*Flags 成员或参数相同的 stext:Xr*Flags 类型定义的常量位定义之一。 有效的标志值也可以由扩展定义。
+* 该标志在使用它的上下文中是允许的。 例如，在某些情况下，某些位标志或位标志的组合是互斥的。
 ****
 
 [[valid-usage-for-structure-types]]
-===== Valid Usage for Structure Types
+===== Valid Usage for Structure Types(结构类型的有效用法)
 
-Any parameter that is a structure containing a pname:type member must: have
-a value of pname:type which is a valid elink:XrStructureType value matching
-the type of the structure.
-As a general rule, the name of this value is obtained by taking the
-structure name, stripping the leading code:Xr, prefixing each capital letter
-with an underscore, converting the entire resulting string to upper case,
-and prefixing it with `XR_TYPE_`.
+// Any parameter that is a structure containing a pname:type member must: have
+// a value of pname:type which is a valid elink:XrStructureType value matching
+// the type of the structure.
+// As a general rule, the name of this value is obtained by taking the
+// structure name, stripping the leading code:Xr, prefixing each capital letter
+// with an underscore, converting the entire resulting string to upper case,
+// and prefixing it with `XR_TYPE_`.
 
-The only exceptions to this rule are API and Operating System names which
-are converted in a way that produces a more readable value:
+// The only exceptions to this rule are API and Operating System names which
+// are converted in a way that produces a more readable value:
+作为包含 pname:type 成员的结构的任何参数必须： 具有 pname:type 的值，
+该值是与结构类型匹配的有效 elink:XrStructureType 值。 作为一般规则，
+此值的名称是通过获取结构名称，去除前导代码：Xr，在每个大写字母前加下划线，
+将整个结果字符串转换为大写，并在其前加上“XR_TYPE_”来获得的。 
 
-.Structure Type Format Exceptions
+此规则的唯一例外是 API 和操作系统名称，它们以产生更具可读性的值的方式转换：
+
+.Structure Type Format Exceptions(结构类型格式异常)
 ****
 * OpenGL => _OPENGL
 * OpenGLES => _OPENGL_ES
@@ -635,79 +729,107 @@ are converted in a way that produces a more readable value:
 ****
 
 [[valid-usage-for-structure-pointer-chains]]
-===== Valid Usage for Structure Pointer Chains
+===== Valid Usage for Structure Pointer Chains(结构指针链的有效用法)
 
-Any structure containing a code:void* pname:next member must: have a value
-of pname:next that is either code:NULL, or points to a valid structure that
-also contains pname:type and pname:next member values.
-The set of structures connected by pname:next pointers is referred to as a
-pname:next chain.
+// Any structure containing a code:void* pname:next member must: have a value
+// of pname:next that is either code:NULL, or points to a valid structure that
+// also contains pname:type and pname:next member values.
+// The set of structures connected by pname:next pointers is referred to as a
+// pname:next chain.
 
-In order to use a structure type defined by an extension in a pname:next
-chain, the proper extension must: have been previously enabled during
-flink:xrCreateInstance.
-A runtime must: ignore all unrecognized structures in a pname:next chain,
-including those associated with an extension that has not been enabled.
+// In order to use a structure type defined by an extension in a pname:next
+// chain, the proper extension must: have been previously enabled during
+// flink:xrCreateInstance.
+// A runtime must: ignore all unrecognized structures in a pname:next chain,
+// including those associated with an extension that has not been enabled.
 
-Some structures for use in a chain are described in the core OpenXR
-specification and are mentioned in the Member Descriptions.
-Any structure described in this document intended for use in a chain is
-mentioned in a "See also" list in the implicit valid usage of the structure
-they chain to.
-Most chained structures are associated with extensions, and are described in
-the base OpenXR Specification under the
+// Some structures for use in a chain are described in the core OpenXR
+// specification and are mentioned in the Member Descriptions.
+// Any structure described in this document intended for use in a chain is
+// mentioned in a "See also" list in the implicit valid usage of the structure
+// they chain to.
+// Most chained structures are associated with extensions, and are described in
+// the base OpenXR Specification under the
+任何包含 code:void* pname:next 成员的结构必须： 具有 pname:next 的值，
+该值要么是 code:NULL，要么指向还包含 pname:type 和 pname:next 成员值的有效结构。 
+由 pname:next 指针连接的结构集称为 pname:next 链。 
+
+为了在 pname:next 链中使用由扩展定义的结构类型，正确的扩展必须： 
+之前在 flink:xrCreateInstance 期间启用。 运行时必须： 
+忽略 pname:next 链中所有无法识别的结构，包括那些与尚未启用的扩展关联的结构。 
+
+核心 OpenXR 规范中描述了链中使用的一些结构，并在成员描述中提到。 
+本文档中描述的用于链中的任何结构都在它们链接到的结构的隐式有效用法中
+的“另请参阅”列表中提及。 大多数链式结构都与扩展相关联，并在基本 OpenXR 规范中进行了描述
 ifndef::HAS_DEPRECATED_EXTENSIONS[]
-<<extension-appendices-list, List of Extensions>>.
+// <<extension-appendices-list, List of Extensions>>.
+<<extension-appendices-list, 扩展附录列表>>
 endif::HAS_DEPRECATED_EXTENSIONS[]
 ifdef::HAS_DEPRECATED_EXTENSIONS[]
-<<extension-appendices-list, List of Current Extensions>>.
+// <<extension-appendices-list, List of Current Extensions>>.
+<<extension-appendices-list, 当前扩展附录列表>>
 endif::HAS_DEPRECATED_EXTENSIONS[]
-Vendor-specific extensions may: be found there as well, or may: only be
-available from the vendor's website or internal document repositories.
+// Vendor-specific extensions may: be found there as well, or may: only be
+// available from the vendor's website or internal document repositories.
 
-Unless otherwise specified: Chained structs which are output structs may: be
-modified by the runtime with the exception of the type and next fields.
-Upon return from any function, all type and next fields in the chain must:
-be unmodified.
+// Unless otherwise specified: Chained structs which are output structs may: be
+// modified by the runtime with the exception of the type and next fields.
+// Upon return from any function, all type and next fields in the chain must:
+// be unmodified.
+特定于供应商的扩展可能：也可以在那里找到，或者可能：只能从供应商的网站或内部文档存储库中获得。
 
-====== Useful Base Structures
+除非另有说明： 作为输出结构的链式结构可以： 由运行时修改，type 和 next 字段除外。
+从任何函数返回时，链中的所有类型和下一个字段必须：未修改。
 
-As a convenience to runtimes and layers needing to iterate through a
-structure pointer chain, the OpenXR API provides the following base
-structures:
+====== Useful Base Structures(有用的基础结构)
+
+// As a convenience to runtimes and layers needing to iterate through a
+// structure pointer chain, the OpenXR API provides the following base
+// structures:
+为了方便需要遍历结构指针链的运行时和层，OpenXR API 提供了以下基本结构：
 
 [open,refpage='XrBaseInStructure',desc='Convenience type for iterating (read only)',type='structs',xrefs='XrBaseOutStructure']
 --
 
-The slink:XrBaseInStructure structure is defined as:
+// The slink:XrBaseInStructure structure is defined as:
+slink:XrBaseInStructure 结构定义为：
 include::{generated}/api/structs/XrBaseInStructure.txt[]
 
-.Member Descriptions
+.Member Descriptions(成员描述)
+// ****
+// * pname:type is the elink:XrStructureType of this structure.
+//   This base structure itself has no associated elink:XrStructureType value.
+// * pname:next is code:NULL or a pointer to the next structure in a structure
+//   chain.
+//   No such structures are defined in core OpenXR.
+// ****
 ****
-* pname:type is the elink:XrStructureType of this structure.
-  This base structure itself has no associated elink:XrStructureType value.
-* pname:next is code:NULL or a pointer to the next structure in a structure
-  chain.
-  No such structures are defined in core OpenXR.
+* pname:type 是这个结构的 elink:XrStructureType。 此基本结构本身没有关联的 elink:XrStructureType 值。
+* pname:next 是 code:NULL 或指向结构链中下一个结构的指针。核心 OpenXR 中没有定义此类结构。
 ****
 
-slink:XrBaseInStructure can be used to facilitate iterating through a
-read-only structure pointer chain.
+// slink:XrBaseInStructure can be used to facilitate iterating through a
+// read-only structure pointer chain.
+slink:XrBaseInStructure 可用于促进只读结构指针链的迭代。
 --
 
 [open,refpage='XrBaseOutStructure',desc='Convenience type for iterating (mutable)',type='structs',xrefs='XrBaseInStructure']
 --
 
-The slink:XrBaseOutStructure structure is defined as:
+// The slink:XrBaseOutStructure structure is defined as:
+slink:XrBaseOutStructure 结构定义为：
 include::{generated}/api/structs/XrBaseOutStructure.txt[]
 
-.Member Descriptions
+.Member Descriptions(成员描述)
 ****
-* pname:type is the elink:XrStructureType of this structure.
-  This base structure itself has no associated elink:XrStructureType value.
-* pname:next is code:NULL or a pointer to the next structure in a structure
-  chain.
-  No such structures are defined in core OpenXR.
+// * pname:type is the elink:XrStructureType of this structure.
+//   This base structure itself has no associated elink:XrStructureType value.
+// * pname:next is code:NULL or a pointer to the next structure in a structure
+//   chain.
+//   No such structures are defined in core OpenXR.
+* pname:type 是这个结构的 elink:XrStructureType。 此基本结构本身没有关联的 elink:XrStructureType 值。
+* pname:next 是 code:NULL 或指向结构链中下一个结构的指针。
+   核心 OpenXR 中没有定义此类结构。
 ****
 
 slink:XrBaseOutStructure can be used to facilitate iterating through a
